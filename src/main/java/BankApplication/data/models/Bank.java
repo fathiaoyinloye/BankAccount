@@ -1,24 +1,23 @@
 package BankApplication.data.models;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Entity
 public class Bank {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long Id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
     private String bankName;
-    @OneToMany
-    List<Account> accounts;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bank_id")
+    private List<User> users;
 
 }
