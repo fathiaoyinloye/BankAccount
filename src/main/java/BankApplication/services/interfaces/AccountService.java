@@ -6,12 +6,8 @@ import BankApplication.dtos.requests.DepositRequest;
 import BankApplication.dtos.requests.WithdrawRequest;
 import BankApplication.dtos.responses.CheckBalanceResponse;
 
-import java.util.List;
-
 
 public interface AccountService {
     Transaction deposit(Account account, DepositRequest depositRequest);
     Transaction withdraw(Account account, WithdrawRequest request);
-    List<Transaction> checkTransactionHistory(Account account);
-   CheckBalanceResponse checkBalance(Account account);
 }
