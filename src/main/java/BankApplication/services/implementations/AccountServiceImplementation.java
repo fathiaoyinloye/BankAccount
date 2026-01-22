@@ -37,7 +37,7 @@ public class AccountServiceImplementation implements AccountService {
     @Override
     public Transaction withdraw(Account account, WithdrawRequest request) {
         if(!request.getPassword().equals(account.getPin())) throw new InvalidPasswordException();
-        if(checkBalance(account).getBalance().compareTo(request.getAmount()) < 0) throw new InsufficientFundException();
+        if(checkBalance(account, request.getPassword()).getBalance().compareTo(request.getAmount()) < 0) throw new InsufficientFundException();
         Transaction transaction = Mapper.TransactionMapper(request);
         transaction.setAccountId(account.getId());
         account.addToTransaction(transaction);
@@ -46,13 +46,14 @@ public class AccountServiceImplementation implements AccountService {
     }
 
     @Override
-    public List<Transaction> checkTransactionHistory(Account account) {
+    public List<Transaction> viewTransactionHistory(Account account) {
         if(account.getTransactions().isEmpty()) throw new NoTransactionMadeException();
         return account.getTransactions();
     }
 
     @Override
-    public CheckBalanceResponse checkBalance(Account account) {
+    public CheckBalanceResponse checkBalance(Account account, String pin) {
+        if (!pin.equals(account.getPin())) throw new InvalidPasswordException();
         CheckBalanceResponse response = new CheckBalanceResponse();
         List<Transaction> transactions = account.getTransactions();
         BigDecimal balance = BigDecimal.valueOf(0);
