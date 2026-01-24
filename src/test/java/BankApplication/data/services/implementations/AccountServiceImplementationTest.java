@@ -50,7 +50,7 @@ class AccountServiceImplementationTest {
     }
     @Test
     void Deposited1000_AccountHasOneTransaction_BalanceIs1000(){
-        assertEquals(BigDecimal.valueOf(0), accountService.checkBalance(account).getBalance());
+        assertEquals(BigDecimal.valueOf(0), accountService.checkBalance(account, "1234").getBalance());
         DepositRequest request = new DepositRequest();
         BigDecimal amount = BigDecimal.valueOf(1000);
         request.setAmount(amount);
@@ -59,12 +59,12 @@ class AccountServiceImplementationTest {
         assertEquals(CREDIT, transaction.getTransactionType());
         assertEquals(amount, transaction.getAmount());
         assertEquals(1, account.getTransactions().size());
-        assertEquals(BigDecimal.valueOf(1000),accountService.checkBalance(account).getBalance());
+        assertEquals(BigDecimal.valueOf(1000),accountService.checkBalance(account, "1234").getBalance());
 
     }
     @Test
     void Deposited1000_AccountHasOneTransaction_BalanceIs1000_Deposited1000_BalanceIs2000(){
-        assertEquals(BigDecimal.valueOf(0), accountService.checkBalance(account).getBalance());
+        assertEquals(BigDecimal.valueOf(0), accountService.checkBalance(account, "1234").getBalance());
         DepositRequest request = new DepositRequest();
         BigDecimal amount = BigDecimal.valueOf(1000);
         request.setAmount(amount);
@@ -73,11 +73,11 @@ class AccountServiceImplementationTest {
         assertEquals(CREDIT, transaction.getTransactionType());
         assertEquals(amount, transaction.getAmount());
         assertEquals(1, account.getTransactions().size());
-        assertEquals(BigDecimal.valueOf(1000),accountService.checkBalance(account).getBalance());
+        assertEquals(BigDecimal.valueOf(1000),accountService.checkBalance(account, "1234").getBalance());
         assertEquals(amount, transaction.getAmount());
         accountService.deposit(account, request);
         assertEquals(2, account.getTransactions().size());
-        assertEquals(BigDecimal.valueOf(2000),accountService.checkBalance(account).getBalance());
+        assertEquals(BigDecimal.valueOf(2000),accountService.checkBalance(account, "1234").getBalance());
 
     }
 
@@ -106,27 +106,27 @@ class AccountServiceImplementationTest {
         DepositRequest depositRequest = new DepositRequest();
         depositRequest.setAmount(BigDecimal.valueOf(2000));
         accountService.deposit(account, depositRequest);
-        assertEquals(BigDecimal.valueOf(2000), accountService.checkBalance(account).getBalance());
+        assertEquals(BigDecimal.valueOf(2000), accountService.checkBalance(account, "1234").getBalance());
         WithdrawRequest request = new WithdrawRequest();
         BigDecimal amount = BigDecimal.valueOf(1000);
         request.setAmount(amount);
         request.setPassword("1234");
         request.setDescription("Money For Food");
         accountService.withdraw(account, request);
-        assertEquals(BigDecimal.valueOf(1000), accountService.checkBalance(account).getBalance());
+        assertEquals(BigDecimal.valueOf(1000), accountService.checkBalance(account, "1234").getBalance());
 
 
     }
     @Test
     void BalanceIs0_Withdraw2000_throwsException(){
-        assertEquals(BigDecimal.valueOf(0), accountService.checkBalance(account).getBalance());
+        assertEquals(BigDecimal.valueOf(0), accountService.checkBalance(account, "1234").getBalance());
         WithdrawRequest request = new WithdrawRequest();
         BigDecimal amount = BigDecimal.valueOf(1000);
         request.setAmount(amount);
         request.setPassword("1234");
         request.setDescription("Money For Food");
         assertThrows(InsufficientFundException.class,()-> accountService.withdraw(account, request));
-        assertEquals(BigDecimal.valueOf(0), accountService.checkBalance(account).getBalance());
+        assertEquals(BigDecimal.valueOf(0), accountService.checkBalance(account, "1234").getBalance());
 
     }
 
@@ -135,14 +135,14 @@ class AccountServiceImplementationTest {
         DepositRequest depositRequest = new DepositRequest();
         depositRequest.setAmount(BigDecimal.valueOf(1000));
         accountService.deposit(account, depositRequest);
-        assertEquals(BigDecimal.valueOf(1000), accountService.checkBalance(account).getBalance());
-        assertEquals(BigDecimal.valueOf(1000), accountService.checkBalance(account).getBalance());
+        assertEquals(BigDecimal.valueOf(1000), accountService.checkBalance(account, "1234").getBalance());
+        assertEquals(BigDecimal.valueOf(1000), accountService.checkBalance(account, "1234").getBalance());
         WithdrawRequest request = new WithdrawRequest();
         BigDecimal amount = BigDecimal.valueOf(1000);
         request.setAmount(amount);
         request.setPassword("1834");
         assertThrows(InvalidPasswordException.class,()-> accountService.withdraw(account, request));
-        assertEquals(BigDecimal.valueOf(1000), accountService.checkBalance(account).getBalance());
+        assertEquals(BigDecimal.valueOf(1000), accountService.checkBalance(account, "1234").getBalance());
 
     }
 

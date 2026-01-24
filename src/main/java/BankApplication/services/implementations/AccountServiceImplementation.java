@@ -24,6 +24,7 @@ import static BankApplication.data.models.TransactionType.CREDIT;
 public class AccountServiceImplementation implements AccountService {
     @Autowired
     private TransactionRepository transactionRepository;
+
     @Override
     public Transaction deposit(Account account, DepositRequest depositRequest) {
         validateAmount(depositRequest);

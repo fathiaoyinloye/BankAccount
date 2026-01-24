@@ -55,9 +55,9 @@ public class AccountController {
         }
 
             @GetMapping("/checkTransactionsHistory")
-            public ResponseEntity<?> viewTransactionHistory(@RequestBody Account account) {
+            public ResponseEntity<?> viewTransactionHistory(@RequestBody Account account, String pin) {
                 try {
-                    return ResponseEntity.status(OK).body(accountService.viewTransactionHistory(account, pin));
+                    return ResponseEntity.status(OK).body(accountService.viewTransactionHistory(account));
                 } catch (NoTransactionMadeException e) {
                     return ResponseEntity.status(BAD_REQUEST).body(e.getMessage());
 

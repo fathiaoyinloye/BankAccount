@@ -17,11 +17,16 @@ public class Account{
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
+
     private String accountNumber;
     private String pin;
+    private UUID UserId;
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "transaction_id")
     private List<Transaction> transactions = new ArrayList<>();
+
+    private UUID bankUUID;
 
     public void addToTransaction(Transaction transaction){
         transactions.add(transaction);
