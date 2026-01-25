@@ -1,12 +1,12 @@
 package BankApplication.utils;
 
-import BankApplication.data.models.Account;
-import BankApplication.data.models.Bank;
-import BankApplication.data.models.Transaction;
-import BankApplication.data.models.TransactionType;
+import BankApplication.data.models.*;
 import BankApplication.dtos.requests.DepositRequest;
 import BankApplication.dtos.requests.RegisterCustomerRequest;
+import BankApplication.dtos.requests.RegisterRequest;
 import BankApplication.dtos.requests.WithdrawRequest;
+
+import static BankApplication.data.models.Role.CLIENT;
 
 public class Mapper {
     public static Transaction TransactionMapper(DepositRequest request){
@@ -39,7 +39,19 @@ public class Mapper {
 
     public static String generateSerialNumber(Bank bank) {
         bank.setNoOfAccounts(bank.getNoOfAccounts() + 1);
-        if (bank.getNoOfAccounts() < 10) return "00012345" + (bank.getNoOfAccounts() - 1);
-        return "0001234" + (bank.getNoOfAccounts() - 1);
+        if (bank.getNoOfAccounts() < 10) return "00012345" + (bank.getNoOfAccounts());
+        return "0001234" + (bank.getNoOfAccounts());
     }
+
+    public static void MapRegisterRequest(RegisterRequest request, Account account, User user){
+        user.setEmail(request.getEmail());
+        user.setRole(CLIENT);
+        user.setPassword(request.getPassword());
+        user.setUsername(request.getUserName());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        account.setPin(request.getPin());
+
+    }
+
 }

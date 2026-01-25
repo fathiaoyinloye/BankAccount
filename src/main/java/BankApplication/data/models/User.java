@@ -1,13 +1,9 @@
 package BankApplication.data.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,15 +15,12 @@ public class User {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private String id;
+    private UUID id;
 
     private String firstName;
     private String lastName;
 
-    @NotNull
-    @Email
-    @NotBlank(message = "Email cannot be blank")
-    @Column(unique = true)
+
     private String email;
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -38,4 +31,11 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    private UUID bankID;
+    public void addToAccounts(Account account){
+        accounts.add(account);
+    }
+
+
+
 }

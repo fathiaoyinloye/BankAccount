@@ -1,6 +1,7 @@
 package BankApplication.data.models;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -26,9 +27,12 @@ public class Bank {
     @JoinColumn(name = "bank_id")
     private List<User> users;
 
-    private int  bankCode;
+    private String  bankCode;
 
     private int noOfAccounts;
 
+    public void addToUsers(User user){
+        users.add(user);
+    }
 
 }
