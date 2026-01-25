@@ -3,19 +3,17 @@ package BankApplication.services.interfaces;
 
 import BankApplication.data.models.Bank;
 import BankApplication.dtos.requests.CreateAccountRequest;
-import BankApplication.dtos.requests.RegisterRequest;
+import BankApplication.dtos.requests.DepositRequest;
 import BankApplication.dtos.requests.RegisterUserRequest;
-import org.springframework.stereotype.Service;
-
-
 
 
 public interface BankService {
-    public void registerUser(RegisterUserRequest request);
-        void registerCustomer(RegisterRequest request, Bank bank);
-    void createAccount(CreateAccountRequest request, Bank bank);
-    void withdraw();
-    void transfer();
+        void createAccount(CreateAccountRequest request);
+        void withdraw();
+        void transfer();
+        void registerUser(RegisterUserRequest request);
+        void deposit(DepositRequest request);
+
 
 
 }

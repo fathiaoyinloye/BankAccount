@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 @Getter
@@ -25,16 +26,18 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
-    private List<Account> accounts;
+    private List<Account> accounts = new ArrayList<>();
    // private String kycDocument;
     private String username;
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
     private UUID bankID;
+    private String bvn;
     public void addToAccounts(Account account){
         accounts.add(account);
     }
+
 
 
 
