@@ -2,6 +2,8 @@ package BankApplication.utils;
 
 import BankApplication.data.models.*;
 import BankApplication.dtos.requests.*;
+import BankApplication.dtos.responses.DepositResponse;
+import BankApplication.dtos.responses.WithdrawResponse;
 
 import static BankApplication.data.models.Role.CLIENT;
 
@@ -58,6 +60,20 @@ public class Mapper {
         transaction.setTransactionType(TransactionType.DEBIT);
         transaction.setAmount(request.getAmount());
         return transaction;
+    }
+    public static DepositResponse DepositResponseMapper( DepositRequest request){
+        DepositResponse response = new DepositResponse();
+        if(request.getDescription() != null) response.setDescription(request.getDescription());
+        response.setTransactionType(TransactionType.DEBIT);
+        response.setAmount(request.getAmount());
+        return response;
+    }
+    public static WithdrawResponse withdrawalResponseMapper( WithdrawRequest request){
+        WithdrawResponse withdrawalResponse = new WithdrawResponse();
+        if(request.getDescription() != null) withdrawalResponse.setDescription(request.getDescription());
+        withdrawalResponse.setTransactionType(TransactionType.DEBIT);
+        withdrawalResponse.setAmount(request.getAmount());
+        return withdrawalResponse;
     }
 
 

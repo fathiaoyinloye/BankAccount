@@ -19,6 +19,7 @@ public class Transaction {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
+
     private String description;
     private Instant time = Instant.now();
     private UUID accountId;

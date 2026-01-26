@@ -12,6 +12,7 @@ import BankApplication.exceptions.NoTransactionMadeException;
 import BankApplication.services.interfaces.AccountService;
 import BankApplication.dtos.requests.DepositRequest;
 import BankApplication.utils.Mapper;
+import BankApplication.utils.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class AccountServiceImplementation implements AccountService {
 
     @Override
     public Transaction withdraw(Account account, WithdrawRequest request) {
-        if(!request.getPassword().equals(account.getPin())) throw new InvalidPasswordException();
+        validatePin(account, request.getPassword());
         if(checkBalance(account, request.getPassword()).getBalance().compareTo(request.getAmount()) < 0) throw new InsufficientFundException();
         Transaction transaction = Mapper.TransactionMapper(request);
         transaction.setAccountId(account.getId());
@@ -54,7 +55,7 @@ public class AccountServiceImplementation implements AccountService {
 
     @Override
     public CheckBalanceResponse checkBalance(Account account, String pin) {
-        if (!pin.equals(account.getPin())) throw new InvalidPasswordException();
+        validatePin(account, pin);
         CheckBalanceResponse response = new CheckBalanceResponse();
         List<Transaction> transactions = account.getTransactions();
         BigDecimal balance = BigDecimal.valueOf(0);
@@ -68,7 +69,11 @@ public class AccountServiceImplementation implements AccountService {
         response.setBalance(balance);
         return response;
     }
+    private void validatePin(Account account, String pin){
+        if (!PasswordUtil.verifyPassword(pin, account.getPin())) throw new InvalidPasswordException();
 
+
+    }
     private void validateAmount(DepositRequest request){
         if (request.getAmount().compareTo(BigDecimal.valueOf(50)) < 0) throw new InvalidAmountException();
     }
